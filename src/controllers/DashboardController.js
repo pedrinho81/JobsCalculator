@@ -3,9 +3,9 @@ const JobUtils = require('../utils/JobUtils')
 const Profile = require('../model/Profile')
 
 module.exports = {
-  index(req, res) {
-    const jobs = Job.get(); //pega todos os dados do job model
-    const profile = Profile.get();
+ async index(req, res) {
+    const jobs = await Job.get(); //pega todos os dados do job model
+    const profile = await Profile.get();
     //vai criar um novo array, retornando todo o objeto do return
     
     let statusCount = {
@@ -34,19 +34,19 @@ module.exports = {
       return {
         //tudo do job somado a outros atributos
         ...job, //pega tudo que já tem no job(linha6) e espalha neste objeto
-        remaining /*dias restamtes*/,
+        remaining, /*dias restamtes*/
         status,
-        budget: JobUtils.calculateBudget(
-          job,
-          profile["value-hour"]
-        ) /*custo do projeto*/,
+        budget: JobUtils.calculateBudget(job, profile["value-hour"])
+         /*custo do projeto*/
       };
     });
         //qtd de horas que quero trabalhar/dia(profile)
         //MENOS 
         //qtd de horas/dia de cada job em progress
     const freeHours = profile["hours-per-day"] - jobTotalHours;
-
+    
     return res.render("index", { jobs: updatedJobs, profile:profile, statusCount:statusCount, freeHours:freeHours }); //aqui passa as variáves dentro do objeto para o index
-  },
+  }
 };
+
+

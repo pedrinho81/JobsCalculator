@@ -2,10 +2,10 @@ const express = require('express') //biblioteca pra criar servidor
 const routes = express.Router() //parte do express que cria as rotas/caminhos
 const ProfileController = require('./controllers/ProfileController')
 const JobController = require('./controllers/JobController')
-const DashboardConroller = require('./controllers/DashboardConroller')
+const DashboardController = require('./controllers/DashboardController')
 
 //req., res //dirname vai atras dos diretorios
-routes.get('/', DashboardConroller.index)
+routes.get('/', DashboardController.index)
 routes.get('/job', JobController.create)
 routes.post('/job', JobController.save)
 routes.get('/job/:id', JobController.show)
